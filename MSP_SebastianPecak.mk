@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/Array.c$(ObjectSuffix) $(IntermediateDirectory)/MSP.c$(ObjectSuffix) $(IntermediateDirectory)/Tools.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/Array.c$(ObjectSuffix) $(IntermediateDirectory)/MSP.c$(ObjectSuffix) $(IntermediateDirectory)/Tools.c$(ObjectSuffix) $(IntermediateDirectory)/FlaggedEdge.c$(ObjectSuffix) 
 
 
 
@@ -122,6 +122,14 @@ $(IntermediateDirectory)/Tools.c$(DependSuffix): Tools.c
 
 $(IntermediateDirectory)/Tools.c$(PreprocessSuffix): Tools.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Tools.c$(PreprocessSuffix) Tools.c
+
+$(IntermediateDirectory)/FlaggedEdge.c$(ObjectSuffix): FlaggedEdge.c $(IntermediateDirectory)/FlaggedEdge.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/sebastian/Dokumenty/MSP_MyAlg/FlaggedEdge.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/FlaggedEdge.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/FlaggedEdge.c$(DependSuffix): FlaggedEdge.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/FlaggedEdge.c$(ObjectSuffix) -MF$(IntermediateDirectory)/FlaggedEdge.c$(DependSuffix) -MM FlaggedEdge.c
+
+$(IntermediateDirectory)/FlaggedEdge.c$(PreprocessSuffix): FlaggedEdge.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/FlaggedEdge.c$(PreprocessSuffix) FlaggedEdge.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

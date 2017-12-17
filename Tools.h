@@ -20,6 +20,9 @@ FlaggedInputEdgeArray_t ParseEdgesList(const char* egdes);
 ///////////////////////////////////////////////
 void PrintFlaggedInputEdgeArray(FlaggedInputEdgeArray_t);
 
+///////////////////////////////////////////////
+void PrintFlaggedEdgeArray(FlaggedEdgeArray_t);
+
 #ifdef __cplusplus
 }
 #endif	// __cplusplus

@@ -9,7 +9,6 @@
 // We assume that singleEdge is ASCII encodded.
 static int _ParseSingleEdge(const char* singleEdge, InputEdge_t* output) {
 	size_t stringLen = 0;
-	int tmp = 0;
 	
 	// Get singleEdge string length.
 	stringLen = strlen(singleEdge);
@@ -88,6 +87,7 @@ FlaggedInputEdgeArray_t ParseEdgesList(const char* edges) {
 	char* copyBuffer = NULL;
 	size_t edgesLength = 0;
 	size_t edgeIter = 0;
+	FlaggedInputEdge_t* currentEdge = NULL;
 	
 	edgesNo = _CountEdgesInString(edges, &edgesLength);
 	if (edgesNo > 0) {
@@ -99,9 +99,13 @@ FlaggedInputEdgeArray_t ParseEdgesList(const char* edges) {
 		// Tokenize string.
 		token = strtok(copyBuffer, EDGES_SEPARATOR);
 		while (token) {
+			// Get current edge.
+			currentEdge = FlaggedInputEdgeArray_GetIndex(result, edgeIter++);
+			// Reset edge flags.
+			currentEdge->Flags = (EdgeFlag_t)0;
 			_ParseSingleEdge(
 				token,
-				&FlaggedInputEdgeArray_GetIndex(result, edgeIter++)->Edge
+				&currentEdge->Edge
 			);
 			// Get next token.
 			token = strtok(NULL, EDGES_SEPARATOR);
@@ -122,6 +126,17 @@ void PrintFlaggedInputEdgeArray(FlaggedInputEdgeArray_t edges) {
 	
 	for (iter = 0; iter < edges->ElementsCount; ++iter) {
 		value = FlaggedInputEdgeArray_GetIndex(edges, iter);
-		printf("[%d]: (%d - %d).Weight = %d\n", iter, value->Edge.VerticeA, value->Edge.VerticeB, value->Edge.Weight);
+		printf("[%d]: (%c - %c).Weight = %d\n", iter, value->Edge.VerticeA + 'a', value->Edge.VerticeB + 'a', value->Edge.Weight);
+	}
+}
+
+///////////////////////////////////////////////
+void PrintFlaggedEdgeArray(FlaggedEdgeArray_t edges) {
+	size_t iter;
+	FlaggedEdge_t* value = NULL;
+	
+	for (iter = 0; iter < edges->ElementsCount; ++iter) {
+		value = FlaggedEdgeArray_GetIndex(edges, iter);
+		printf("(%c - %c).Weight = %d\n", iter + 'a', value->Edge.EndPoint + 'a', value->Edge.Weight);
 	}
 }

@@ -14,8 +14,8 @@ inline const char* MSP_GetLastError(void) {
 }
 
 ///////////////////////////////////////////////
-Array* MSP_CreateInitialForest(const FlaggedInputEdgeArray_t edges, size_t verticesNo) {
-	Array* output = NULL;
+FlaggedEdgeArray_t MSP_CreateInitialForest(const FlaggedInputEdgeArray_t edges, size_t verticesNo) {
+	FlaggedEdgeArray_t output = NULL;
 	size_t iter;
 	FlaggedInputEdge_t* value = NULL;
 	FlaggedEdge_t* outVal = NULL;
@@ -24,6 +24,9 @@ Array* MSP_CreateInitialForest(const FlaggedInputEdgeArray_t edges, size_t verti
 	output = FlaggedEdgeArray_New(verticesNo);
 	if (output) {
 		// Reset output array.
+		for (iter = 0; iter < edges->ElementsCount; ++iter)
+			FlaggedEdge_Reset(FlaggedEdgeArray_GetIndex(output, iter));
+			
 		// For each input edge.
 		for (iter = 0; iter < edges->ElementsCount; ++iter) {
 			// Get element from input array.
@@ -66,5 +69,38 @@ Array* MSP_CreateInitialForest(const FlaggedInputEdgeArray_t edges, size_t verti
 		LastError = "Could not create new Array object.";
 	
 	// Return output value.
+	return output;
+}
+
+///////////////////////////////////////////////
+FlaggedEdgeArray_t MSP_NormalizeForest(const FlaggedEdgeArray_t forest) {
+	FlaggedEdgeArray_t output = NULL;
+	size_t iter = 0;
+	// Number of edges after normalization.
+	size_t normalizedEdgesNo = 0;
+	FlaggedEdge_t* currentEdge = NULL;
+	FlaggedEdge_t* outputElement = NULL;
+	
+	// Create output.
+	output = FlaggedEdgeArray_New(forest->ElementsCount);
+	if (output) {
+		// Reset output array.
+		for (iter = 0; iter < forest->ElementsCount; ++iter)
+			FlaggedEdge_Reset(FlaggedEdgeArray_GetIndex(output, iter));
+			
+		// Do for each forest's edge.
+		for (iter = 0; iter < forest->ElementsCount; ++iter) {
+			// Check this edge flag, if it was not processed yet.
+			currentEdge = FlaggedEdgeArray_GetIndex(forest, iter);
+			// Get output element.
+			outputElement = FlaggedEdgeArray_GetIndex(output, normalizedEdgesNo++);
+			// Copy current edge to output.
+			
+		}
+	}
+	else
+		printf("MSP_NormalizeForest() -> Could not create output array object.");
+		
+	// Return result.
 	return output;
 }

@@ -1,0 +1,45 @@
+#ifndef LIST_H
+#define LIST_H
+
+#include <Array.h>
+
+///////////////////////////////////////////////
+struct _List_t {
+	void* Data;
+	struct _List_t* Previous;
+	struct _List_t* Next;
+};
+
+///////////////////////////////////////////////
+typedef struct _List_t List_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif	// __cplusplus
+
+///////////////////////////////////////////////
+List_t* List_New(void);
+
+///////////////////////////////////////////////
+void List_Delete(List_t**);
+
+///////////////////////////////////////////////
+List_t* List_PushBack(List_t* list, void* data);
+
+///////////////////////////////////////////////
+List_t* List_PushFront(List_t* list, void* data);
+
+///////////////////////////////////////////////
+List_t* List_Insert(List_t* list, size_t index);
+
+///////////////////////////////////////////////
+size_t List_Size(const List_t*);
+
+///////////////////////////////////////////////
+Array* List_ToArray(const List_t* list, size_t elementSize);
+
+#ifdef __cplusplus
+}
+#endif	// __cplusplus
+
+#endif	// LIST_H

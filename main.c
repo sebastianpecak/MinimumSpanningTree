@@ -1,6 +1,7 @@
 #include <Array.h>
 #include <stdio.h>
 #include <Tools.h>
+#include <MSP.h>
 
 ///////////////////////////////////////////////
 void Test1(void) {
@@ -19,17 +20,23 @@ void Test1(void) {
 		"h-j-6,"
 		"i-j-4";
 	FlaggedInputEdgeArray_t inputArray = NULL;
+	FlaggedEdgeArray_t initialForest = NULL;
 	
 	// Try to parse given list.
 	inputArray = ParseEdgesList(edges);
 	PrintFlaggedInputEdgeArray(inputArray);
 	// Check for success.
 	if (inputArray) {
-		////////
+		initialForest = MSP_CreateInitialForest(inputArray, 10);
+		PrintFlaggedEdgeArray(initialForest);
 	}
 	// Error.
 	else
 		printf("Test1() -> Error when parsing input egdes pairs.");
+		
+	// Free resources.
+	Array_Delete(&inputArray);
+	Array_Delete(&initialForest);
 }
 
 ///////////////////////////////////////////////

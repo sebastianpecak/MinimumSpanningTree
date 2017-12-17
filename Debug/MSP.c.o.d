@@ -1,9 +1,9 @@
-Debug/MSP.c.o: MSP.c MSP.h Array.h FlaggedEdge.h Edge.h
+Debug/MSP.c.o: MSP.c MSP.h FlaggedEdge.h Edge.h Array.h
 
 MSP.h:
-
-Array.h:
 
 FlaggedEdge.h:
 
 Edge.h:
+
+Array.h:

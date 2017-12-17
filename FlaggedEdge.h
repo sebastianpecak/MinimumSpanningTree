@@ -44,4 +44,15 @@ struct _FlaggedInputEdge_t {
 typedef struct _FlaggedInputEdge_t FlaggedInputEdge_t;
 typedef Array* FlaggedInputEdgeArray_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif	// __cplusplus
+
+///////////////////////////////////////////////
+void FlaggedEdge_Reset(FlaggedEdge_t*);
+
+#ifdef __cplusplus
+}
+#endif	// __cplusplus
+
 #endif	// FLAGGEDEDGE_H
