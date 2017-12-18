@@ -19,88 +19,95 @@ FlaggedEdgeArray_t MSP_CreateInitialForest(const FlaggedInputEdgeArray_t edges, 
 	size_t iter;
 	FlaggedInputEdge_t* value = NULL;
 	FlaggedEdge_t* outVal = NULL;
+	// This array binds initial forest edges with input edges.
+	FlaggedInputEdge_t** inputRefsArray = NULL;
 	
 	// Try to create output array.
 	output = FlaggedEdgeArray_New(verticesNo);
 	if (output) {
-		// Reset output array.
-		for (iter = 0; iter < edges->ElementsCount; ++iter)
-			FlaggedEdge_Reset(FlaggedEdgeArray_GetIndex(output, iter));
-			
-		// For each input edge.
-		for (iter = 0; iter < edges->ElementsCount; ++iter) {
-			// Get element from input array.
-			value = FlaggedInputEdgeArray_GetIndex(edges, iter);
-			///////////////////////////////////////////////
-			// VERTICE-A.
-			outVal = FlaggedEdgeArray_GetIndex(output, value->Edge.VerticeA);
-			// If output edge has no shortest value yet, set.
-			if (outVal->Edge.EndPoint == EDGE_NOT_SET) {
-				outVal->Edge.EndPoint = value->Edge.VerticeB;
-				outVal->Edge.Weight = value->Edge.Weight;
+		// Try to create refs array.
+		inputRefsArray = (FlaggedInputEdge_t**)malloc(sizeof(FlaggedInputEdge_t*) * verticesNo);
+		// Check for error.
+		if (inputRefsArray) {
+			// Reset output array and refs.
+			for (iter = 0; iter < output->ElementsCount; ++iter) {
+				FlaggedEdge_Reset(FlaggedEdgeArray_GetIndex(output, iter));
+				inputRefsArray[iter] = NULL;
 			}
-			// Value was already set, so compare is new edge is less costly.
-			else {
-				if (outVal->Edge.Weight > value->Edge.Weight) {
-					// Set.
+				
+			// For each input edge.
+			for (iter = 0; iter < edges->ElementsCount; ++iter) {
+				// Get element from input array.
+				value = FlaggedInputEdgeArray_GetIndex(edges, iter);
+				///////////////////////////////////////////////
+				// VERTICE-A.
+				outVal = FlaggedEdgeArray_GetIndex(output, value->Edge.VerticeA);
+				// If output edge has no shortest value yet, set.
+				if (outVal->Edge.EndPoint == EDGE_NOT_SET) {
 					outVal->Edge.EndPoint = value->Edge.VerticeB;
 					outVal->Edge.Weight = value->Edge.Weight;
+					inputRefsArray[value->Edge.VerticeA] = value;
+					// Set usage flag.
+					value->Flags |= FLAG_USED;
 				}
-			}
-			///////////////////////////////////////////////
-			// VERTICE-B.
-			outVal = FlaggedEdgeArray_GetIndex(output, value->Edge.VerticeB);
-			if (outVal->Edge.EndPoint == EDGE_NOT_SET) {
-				outVal->Edge.EndPoint = value->Edge.VerticeA;
-				outVal->Edge.Weight = value->Edge.Weight;
-			}
-			// Value was already set, so compare is new edge is less costly.
-			else {
-				if (outVal->Edge.Weight > value->Edge.Weight) {
-					// Set.
+				// Value was already set, so compare is new edge is less costly.
+				else {
+					if (outVal->Edge.Weight > value->Edge.Weight) {
+						// Set.
+						outVal->Edge.EndPoint = value->Edge.VerticeB;
+						outVal->Edge.Weight = value->Edge.Weight;
+						// Reset usage flag.
+						inputRefsArray[value->Edge.VerticeA]->Flags &= ~FLAG_USED;
+						// Set new ref.
+						inputRefsArray[value->Edge.VerticeA] = value;
+						// Set usage flag.
+						value->Flags |= FLAG_USED;
+					}
+				}
+				///////////////////////////////////////////////
+				// VERTICE-B.
+				outVal = FlaggedEdgeArray_GetIndex(output, value->Edge.VerticeB);
+				if (outVal->Edge.EndPoint == EDGE_NOT_SET) {
 					outVal->Edge.EndPoint = value->Edge.VerticeA;
 					outVal->Edge.Weight = value->Edge.Weight;
+					inputRefsArray[value->Edge.VerticeB] = value;
+					// Set usage flag.
+					value->Flags |= FLAG_USED;
+				}
+				// Value was already set, so compare is new edge is less costly.
+				else {
+					if (outVal->Edge.Weight > value->Edge.Weight) {
+						// Set.
+						outVal->Edge.EndPoint = value->Edge.VerticeA;
+						outVal->Edge.Weight = value->Edge.Weight;
+						// Reset usage flag.
+						inputRefsArray[value->Edge.VerticeB]->Flags &= ~FLAG_USED;
+						// Set new ref.
+						inputRefsArray[value->Edge.VerticeB] = value;
+						// Set usage flag.
+						value->Flags |= FLAG_USED;
+					}
 				}
 			}
+		}
+		else {
+			Array_Delete(&output);
+			LastError = "MSP_CreateInitialForest() -> Could not create refs array.";
 		}
 	}
 	else
 		// Set LastError.
-		LastError = "Could not create new Array object.";
+		LastError = "MSP_CreateInitialForest() -> Could not create new Array object.";
 	
 	// Return output value.
 	return output;
 }
 
 ///////////////////////////////////////////////
-FlaggedEdgeArray_t MSP_NormalizeForest(const FlaggedEdgeArray_t forest) {
-	FlaggedEdgeArray_t output = NULL;
-	size_t iter = 0;
+size_t MSP_NormalizeForest(FlaggedEdgeArray_t forest) {
 	// Number of edges after normalization.
 	size_t normalizedEdgesNo = 0;
-	FlaggedEdge_t* currentEdge = NULL;
-	FlaggedEdge_t* outputElement = NULL;
-	
-	// Create output.
-	output = FlaggedEdgeArray_New(forest->ElementsCount);
-	if (output) {
-		// Reset output array.
-		for (iter = 0; iter < forest->ElementsCount; ++iter)
-			FlaggedEdge_Reset(FlaggedEdgeArray_GetIndex(output, iter));
-			
-		// Do for each forest's edge.
-		for (iter = 0; iter < forest->ElementsCount; ++iter) {
-			// Check this edge flag, if it was not processed yet.
-			currentEdge = FlaggedEdgeArray_GetIndex(forest, iter);
-			// Get output element.
-			outputElement = FlaggedEdgeArray_GetIndex(output, normalizedEdgesNo++);
-			// Copy current edge to output.
-			
-		}
-	}
-	else
-		printf("MSP_NormalizeForest() -> Could not create output array object.");
 		
 	// Return result.
-	return output;
+	return 0;
 }

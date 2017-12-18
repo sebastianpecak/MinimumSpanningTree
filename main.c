@@ -28,6 +28,7 @@ void Test1(void) {
 	// Check for success.
 	if (inputArray) {
 		initialForest = MSP_CreateInitialForest(inputArray, 10);
+		PrintFlaggedInputEdgeArray(inputArray);
 		PrintFlaggedEdgeArray(initialForest);
 	}
 	// Error.

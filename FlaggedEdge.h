@@ -19,6 +19,12 @@
 ///////////////////////////////////////////////
 #define FlaggedInputEdgeArray_New(size) \
 	Array_New((size), sizeof(FlaggedInputEdge_t))
+	
+///////////////////////////////////////////////
+enum _EdgeFlagValues_t {
+	FLAG_USED = 1,
+	FLAG_EXCLUDED = 2
+};
 
 ///////////////////////////////////////////////
 // Flags field used to detremine multiple Edge states.
@@ -28,6 +34,7 @@ typedef unsigned char EdgeFlag_t;
 struct _FlaggedEdge_t {
 	EdgeFlag_t Flags;
 	OffsetEdge_t Edge;
+	
 };
 
 ///////////////////////////////////////////////
@@ -50,6 +57,9 @@ extern "C" {
 
 ///////////////////////////////////////////////
 void FlaggedEdge_Reset(FlaggedEdge_t*);
+
+///////////////////////////////////////////////
+//void FlaggedInputEdge_Reset(FlaggedInputEdge_t*);
 
 #ifdef __cplusplus
 }

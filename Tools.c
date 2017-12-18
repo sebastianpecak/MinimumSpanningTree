@@ -126,8 +126,16 @@ void PrintFlaggedInputEdgeArray(FlaggedInputEdgeArray_t edges) {
 	
 	for (iter = 0; iter < edges->ElementsCount; ++iter) {
 		value = FlaggedInputEdgeArray_GetIndex(edges, iter);
-		printf("[%d]: (%c - %c).Weight = %d\n", iter, value->Edge.VerticeA + 'a', value->Edge.VerticeB + 'a', value->Edge.Weight);
+		printf(
+			"[%d]: (%c - %c).Weight = %d, Flags = %d\n",
+			iter,
+			value->Edge.VerticeA + 'a',
+			value->Edge.VerticeB + 'a',
+			value->Edge.Weight,
+			value->Flags
+		);
 	}
+	printf("---------------------------------------------------\n");
 }
 
 ///////////////////////////////////////////////
@@ -139,4 +147,5 @@ void PrintFlaggedEdgeArray(FlaggedEdgeArray_t edges) {
 		value = FlaggedEdgeArray_GetIndex(edges, iter);
 		printf("(%c - %c).Weight = %d\n", iter + 'a', value->Edge.EndPoint + 'a', value->Edge.Weight);
 	}
+	printf("---------------------------------------------------\n");
 }

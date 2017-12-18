@@ -17,7 +17,7 @@ FlaggedEdgeArray_t MSP_CreateInitialForest(const FlaggedInputEdgeArray_t edges, 
 // This function gererates unique forest, without duplicated edges.
 // Returns new array.
 // Parameter is MSP_CreateInitialForest output.
-FlaggedEdgeArray_t MSP_NormalizeForest(const FlaggedEdgeArray_t edges);
+size_t MSP_NormalizeForest(FlaggedEdgeArray_t);
 
 ///////////////////////////////////////////////
 // This function connects trees in forest with shorest paths.
