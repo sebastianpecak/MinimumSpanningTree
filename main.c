@@ -24,12 +24,15 @@ void Test1(void) {
 	
 	// Try to parse given list.
 	inputArray = ParseEdgesList(edges);
-	PrintFlaggedInputEdgeArray(inputArray);
+	//PrintFlaggedInputEdgeArray(inputArray);
 	// Check for success.
 	if (inputArray) {
+		////////////////////////////////////////////////////////
 		initialForest = MSP_CreateInitialForest(inputArray, 10);
 		PrintFlaggedInputEdgeArray(inputArray);
 		PrintFlaggedEdgeArray(initialForest);
+		////////////////////////////////////////////////////////
+		
 	}
 	// Error.
 	else

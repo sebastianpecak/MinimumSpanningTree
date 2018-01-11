@@ -12,7 +12,7 @@
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/sebastian/Dokumenty/MSP_MyAlg/MSP.c" Name="FileName"/>
-      <int Value="45" Name="FirstVisibleLine"/>
+      <int Value="3" Name="FirstVisibleLine"/>
       <int Value="68" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
