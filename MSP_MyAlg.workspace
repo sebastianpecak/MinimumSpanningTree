@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="MSP_MyAlg" Database="" Version="10.0.0">
-  <Project Name="MSP_SebastianPecak" Path="MSP_SebastianPecak.project" Active="Yes"/>
+  <Project Name="MSP" Path="MSP_SebastianPecak.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
-      <Project Name="MSP_SebastianPecak" ConfigName="Debug"/>
+      <Project Name="MSP" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
-      <Project Name="MSP_SebastianPecak" ConfigName="Release"/>
+      <Project Name="MSP" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

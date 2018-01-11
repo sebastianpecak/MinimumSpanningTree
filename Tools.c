@@ -7,7 +7,7 @@
 // This function parses single edge and saves result in output.
 // Returns non-zero value on error.
 // We assume that singleEdge is ASCII encodded.
-static int _ParseSingleEdge(const char* singleEdge, InputEdge_t* output) {
+static int _ParseSingleEdge(const char* singleEdge, InputEdge_t* output, char* highestVertice) {
 	size_t stringLen = 0;
 	
 	// Get singleEdge string length.
@@ -16,42 +16,11 @@ static int _ParseSingleEdge(const char* singleEdge, InputEdge_t* output) {
 		output->VerticeA = (Vertice_t)(*singleEdge - 'a');
 		output->VerticeB = (Vertice_t)(*(singleEdge + 2) - 'a');
 		output->Weight = (EdgeWeight_t)atoi(singleEdge + 4);
-		//tmp = (*singleEdge - 'a');
-		//output->VerticeA = (Vertice_t)tmp;
-		//tmp = *(singleEdge + 2) - 'a';
-		//output->VerticeB = (Vertice_t)tmp;
-		//const char* sss = singleEdge + 4;
-		//output->Weight = (EdgeWeight_t)atoi(singleEdge + 4);
-		// Copy value.
-		// No safety switches. TODO.
-		//copyBuffer = (char*)malloc(stringLen + 1);
-		//strcpy(copyBuffer, singleEdge);
-		// Tokenize string.
-		//token = strchr(copyBuffer, *(EDGE_VALUE_SEPARATOR));
-		/*while (token) {
-			// Move to next character.
-			++token;
-			// This list is easly extensible.
-			switch (valueIter++) {
-				// Edge source vertice.
-			case 0:
-				output->VerticeA = (Vertice_t)((*token) - 'a');
-				break;
-				// Edge endpoint verice.
-			case 1:
-				output->VerticeB = (Vertice_t)((*token) - 'a');
-				break;
-				// Edge weight, treated as signed integer value.
-			case 2:
-				output->Weight = (EdgeWeight_t)atoi(token);
-				//valueIter = 0;
-				break;
-			}
-			// Get next token.
-			token = strtok(NULL, EDGE_VALUE_SEPARATOR);
-		}*/
-		// Free resources.
-		//free(copyBuffer);
+		// Set up highest vertice value.
+		if (output->VerticeA > output->VerticeB)
+			*highestVertice = (*highestVertice < output->VerticeA ? output->VerticeA : *highestVertice);
+		else
+			*highestVertice = (*highestVertice < output->VerticeB ? output->VerticeB : *highestVertice);
 	}
 	else
 		printf("_ParseSingleEdge() -> Value length is 0.");
@@ -79,7 +48,7 @@ static size_t _CountEdgesInString(const char* edgesString, size_t* outputLen) {
 }
 
 ///////////////////////////////////////////////
-FlaggedInputEdgeArray_t ParseEdgesList(const char* edges) {
+FlaggedInputEdgeArray_t ParseEdgesList(const char* edges, uint32_t* verticesNo) {
 	FlaggedInputEdgeArray_t result = NULL;
 	// Number of edges.
 	size_t edgesNo = 0;
@@ -89,6 +58,8 @@ FlaggedInputEdgeArray_t ParseEdgesList(const char* edges) {
 	size_t edgeIter = 0;
 	FlaggedInputEdge_t* currentEdge = NULL;
 	
+	// Reset vertices number.
+	*verticesNo = 0;
 	edgesNo = _CountEdgesInString(edges, &edgesLength);
 	if (edgesNo > 0) {
 		// Create output array.
@@ -105,7 +76,8 @@ FlaggedInputEdgeArray_t ParseEdgesList(const char* edges) {
 			currentEdge->Flags = (EdgeFlag_t)0;
 			_ParseSingleEdge(
 				token,
-				&currentEdge->Edge
+				&currentEdge->Edge,
+				verticesNo
 			);
 			// Get next token.
 			token = strtok(NULL, EDGES_SEPARATOR);
@@ -115,6 +87,9 @@ FlaggedInputEdgeArray_t ParseEdgesList(const char* edges) {
 	}
 	else
 		printf("ParseEdgesList() -> Edges number is 0.");
+		
+	// Increment vertices number, as we started with 0.
+	++(*verticesNo);
 	// Return parsed edges.
 	return result;
 }

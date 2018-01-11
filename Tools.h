@@ -2,6 +2,7 @@
 #define TOOLS_H
 
 #include <FlaggedEdge.h>
+#include <stdint.h>
 
 #define EDGE_VALUE_SEPARATOR "-"
 #define EDGES_SEPARATOR ","
@@ -15,7 +16,7 @@ extern "C" {
 // "a-b-10,a-d-12,..."
 // Veritces are letters from a-z.
 // Returns valid pointer to Array of edges (on success).
-FlaggedInputEdgeArray_t ParseEdgesList(const char* egdes);
+FlaggedInputEdgeArray_t ParseEdgesList(const char* egdes, uint32_t* verticesNo);
 
 ///////////////////////////////////////////////
 void PrintFlaggedInputEdgeArray(FlaggedInputEdgeArray_t);
